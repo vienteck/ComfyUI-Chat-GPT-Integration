@@ -1,0 +1,14 @@
+{
+  "creativeThinkers": [
+    {"name": "Salvador Dalí", "field": "Painter", "style": "Surrealist"},
+    {"name": "Frida Kahlo", "field": "Painter", "style": "Symbolic"},
+    {"name": "David Lynch", "field": "Filmmaker", "style": "Surreal, Unsettling"},
+    {"name": "Hayao Miyazaki", "field": "Animator/Filmmaker", "style": "Enchanting, Animated"},
+    {"name": "Leonora Carrington", "field": "Painter/Writer", "style": "Magical, Mythical"},
+    {"name": "Haruki Murakami", "field": "Author", "style": "Surreal, Dreamlike"},
+    {"name": "Octavia E. Butler", "field": "Author", "style": "Innovative, Thought-Provoking"},
+    {"name": "Hieronymus Bosch", "field": "Painter", "style": "Fantastical, Symbolic"},
+    {"name": "Philip K. Dick", "field": "Author", "style": "Exploratory, Sci-Fi"},
+    {"name": "Terry Gilliam", "field": "Filmmaker", "style": "Visually Imaginative, Eccentric"}
+  ]
+}
