@@ -1,5 +1,6 @@
 # Credits to Omar92. This is based heavily off of his code
 https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92 
+
 I rewrote the core logic because this code was not compaitible with the new version of the OpenAi api
 
 # ComfyUI-ChatGPTIntegration
@@ -16,6 +17,7 @@ You will find my nodes under the new group O/....
 
 ## How to update
 - No Auto Update
+
 The file looks like this :
 
 {

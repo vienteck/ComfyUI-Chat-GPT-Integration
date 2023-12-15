@@ -9,6 +9,7 @@
     {"name": "Octavia E. Butler", "field": "Author", "style": "Innovative, Thought-Provoking"},
     {"name": "Hieronymus Bosch", "field": "Painter", "style": "Fantastical, Symbolic"},
     {"name": "Philip K. Dick", "field": "Author", "style": "Exploratory, Sci-Fi"},
-    {"name": "Terry Gilliam", "field": "Filmmaker", "style": "Visually Imaginative, Eccentric"}
+    {"name": "Terry Gilliam", "field": "Filmmaker", "style": "Visually Imaginative, Eccentric"},
+    {"name": "H.R. Giger", "field": "Artist", "style": "Biochemical, Gothic"}
   ]
 }

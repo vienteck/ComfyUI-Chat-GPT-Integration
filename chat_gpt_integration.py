@@ -130,9 +130,7 @@ class ChatGptPrompt:
                 "max_words": ("INT", {"default": 400,"min":1,"max":1000})
             },
             "optional": {
-                "seed": ("INT", {"default": random.randint(1,0xFFFFFFFFFFFFFFFF), "min": 0, "max": 0xFFFFFFFFFFFFFFFF}),
-                "custom_formatting": ("STRING", {"multiline": True}),
-                
+                "custom_formatting": ("STRING", {"multiline": True}), 
             },
         }
 
@@ -145,9 +143,8 @@ class ChatGptPrompt:
 
     CATEGORY = "OpenAI"  # Define the category for the node
     
-    def process(self, prompt,model,seed,role,max_words,custom_formatting):
-        GetPrompt(role,prompt,model,max_words,custom_formatting)
-        return "This is a submission test"
+    def process(self, prompt,model,role,max_words,custom_formatting):
+        return GetPrompt(role,prompt,model,max_words,custom_formatting)
     
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
