@@ -2,13 +2,19 @@ import importlib
 import json
 import os
 import random
+import time
 from openai import OpenAI
-
+from datetime import datetime
 openAI_models = None
 NODE_FILE = os.path.abspath(__file__)
 
 CONFIG_FILE = f"{os.path.dirname(NODE_FILE)}\\config.json"
 ROLES_FILE = f"{os.path.dirname(NODE_FILE)}\\roles.json"
+
+def save_prompt_to_file(log):
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),"prompt_log.txt"), "a") as f:
+        f.write(f"Logged {datetime.now().strftime('%Y%m%d%H%M%S')}\n")
+        f.write(f"{log}\n\n\n")
 
 def get_roles():
     try:
@@ -89,38 +95,47 @@ def get_gpt_roles():
     roles = ["AI Assistant", "Alejandro Jodorowsky", "H.R. Giger"]
     return roles
         
-def GetPrompt(role, prompt, input_model, max_words,custom_formatting) -> str:
+def GetPrompt(role, prompt, input_model, max_words,append_string) -> str:
     client = OpenAI(
         api_key=get_api_key(),
     )
     print("submitting prompt to OpenAi")
     sb = prompt.strip()
-    if len(custom_formatting) > 0 :
-        sb += f' in the format: {custom_formatting}'
-    sb += f' using at most {max_words} words' 
-    
-    completion = client.chat.completions.create(
-        model=input_model,
-        messages=[
-            {
-                "role": "system",
-                "content": f"You are {role}",
-            },
-            {
-                "role": "user",
-                "content": f"{prompt}",
-            },
-        ],
-    )
-    print(f'recieved {len(completion.choices[0].message.content)} from OpenAi')
-    return completion.choices[0].message.content
+    if len(append_string) > 0 :
+        sb += f' - {append_string}'
+    sb += f' - return no more than {max_words} words' 
+    save_prompt_to_file(sb)
+    retryCounter = 0
+    while retryCounter < 3:
+        try:
+            completion = client.chat.completions.create(
+                model=input_model,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": f"You are a {role} imitator",
+                    },
+                    {
+                        "role": "user",
+                        "content": f"{prompt}",
+                    },
+                ],
+            )
+            resp = f"Goal: Produce an image in the style of {role}. Content: " +  completion.choices[0].message.content + f' Style: {role}'
+            save_prompt_to_file(resp)
+            return resp 
+        except:
+            print('Failed to talk to OpenAi. sleeping for 10 seconds and trying again')
+            retryCounter += 1
+            time.sleep(10)
+        
 
 class ChatGptPrompt:
     def __init__(self):
         pass
     
     @classmethod
-    def INPUT_TYPES(cls):
+    def INPUT_TYPES(s):
         return {
             "required": {
                 # Multiline string input for the prompt
@@ -130,12 +145,12 @@ class ChatGptPrompt:
                 "max_words": ("INT", {"default": 400,"min":1,"max":1000})
             },
             "optional": {
-                "custom_formatting": ("STRING", {"multiline": True}), 
+                "append_string": ("STRING", {"multiline": True}), 
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
             },
         }
 
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("Prompt",)
 
     FUNCTION = "process"
 
@@ -143,16 +158,52 @@ class ChatGptPrompt:
 
     CATEGORY = "OpenAI"  # Define the category for the node
     
-    def process(self, prompt,model,role,max_words,custom_formatting):
-        return GetPrompt(role,prompt,model,max_words,custom_formatting)
+    EXECUTE='process'
+
+    @staticmethod
+    def process(prompt,model,role,max_words,append_string,seed) -> str:
+        text = GetPrompt(role,prompt,model,max_words,append_string)
+        print(f'Returning Text: {text}')
+        return (text,)
+
+class TextConcat:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                # Multiline string input for the prompt
+                "text1": ("STRING", {"multiline": True, "defaultBehavior": "input"}),
+                "text2": ("STRING", {"multiline": True, "defaultBehavior": "input"}),
+            },
+        }
+
+    RETURN_TYPES = ("STRING",)
+
+    FUNCTION = "process"
+
+    OUTPUT_NODE = True
+
+    CATEGORY = "Text"  # Define the category for the node
     
+    EXECUTE='process'
+
+    @staticmethod
+    def process(text1, text2) -> str:
+        print(f'Text from previous node {text1}')
+        return (text1 + ' ' + text2)
+
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
-    "ChatGptPrompt": ChatGptPrompt
+    "ChatGptPrompt": ChatGptPrompt,
+    "ChatGptTextConcat": TextConcat
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "ChatGptPrompt": "ChatGPT Prompt Node"
+    "ChatGptPrompt": "ChatGPT Prompt Node",
+    "ChatGptTextConcat": "ChatGpt Text Container"
 }
