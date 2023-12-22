@@ -99,6 +99,11 @@ def GetPrompt(role, prompt, input_model, max_words,append_string) -> str:
     client = OpenAI(
         api_key=get_api_key(),
     )
+
+    if role == "Random":
+        role_list= get_roles()
+        role = role_list[random.randint(2,len(role_list)-1)]
+
     print("submitting prompt to OpenAi")
     sb = prompt.strip()
     if len(append_string) > 0 :
