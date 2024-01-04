@@ -90,12 +90,8 @@ def install_openai():
         import pip
 
         pip.main(["install", "openai"])
-
-def get_gpt_roles():
-    roles = ["AI Assistant", "Alejandro Jodorowsky", "H.R. Giger"]
-    return roles
         
-def GetPrompt(role, prompt, input_model, max_words,append_string) -> str:
+def GetPrompt(role, prompt, input_model,append_string) -> str:
     client = OpenAI(
         api_key=get_api_key(),
     )
@@ -108,7 +104,7 @@ def GetPrompt(role, prompt, input_model, max_words,append_string) -> str:
     sb = prompt.strip()
     if len(append_string) > 0 :
         sb += f' - {append_string}'
-    sb += f' - return no more than {max_words} words' 
+        
     save_prompt_to_file(sb)
     retryCounter = 0
     while retryCounter < 3:
@@ -145,9 +141,8 @@ class ChatGptPrompt:
             "required": {
                 # Multiline string input for the prompt
                 "prompt": ("STRING", {"multiline": True}),
-                "model": (get_gpt_models(), {"default": "gpt-3.5-turbo"}),
-                "role": (get_roles(), {"default": "AI Assistant"}),
-                "max_words": ("INT", {"default": 400,"min":1,"max":1000})
+                "model": (get_gpt_models(), {"default": "gpt-3.5-turbo-1106"}),
+                "role": (get_roles(), {"default": "AI Assistant"})
             },
             "optional": {
                 "append_string": ("STRING", {"multiline": True}), 
@@ -171,44 +166,15 @@ class ChatGptPrompt:
         print(f'Returning Text: {text}')
         return (text,)
 
-class TextConcat:
-    def __init__(self):
-        pass
 
-    @classmethod
-    def INPUT_TYPES(s):
-        return {
-            "required": {
-                # Multiline string input for the prompt
-                "text1": ("STRING", {"multiline": True, "defaultBehavior": "input"}),
-                "text2": ("STRING", {"multiline": True, "defaultBehavior": "input"}),
-            },
-        }
-
-    RETURN_TYPES = ("STRING",)
-
-    FUNCTION = "process"
-
-    OUTPUT_NODE = True
-
-    CATEGORY = "Text"  # Define the category for the node
-    
-    EXECUTE='process'
-
-    @staticmethod
-    def process(text1, text2) -> str:
-        print(f'Text from previous node {text1}')
-        return (text1 + ' ' + text2)
 
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
     "ChatGptPrompt": ChatGptPrompt,
-    "ChatGptTextConcat": TextConcat
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
     "ChatGptPrompt": "ChatGPT Prompt Node",
-    "ChatGptTextConcat": "ChatGpt Text Container"
 }
