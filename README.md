@@ -1,7 +1,7 @@
 # Credits to Omar92. This is based heavily off of his code
 https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92 
 
-#Updates
+# Updates
 1/4/2024 
 -I removed max_words from the node as it didnt really seem to do anything. You can try inputting it in the prompt to see if that makes a difference. 
 -Sometimes, for whatever reason, chat-gpt api just doesnt work so i added logic to try 3 times waiting 10 seconds in between each try. This seems to work 100% of the time
