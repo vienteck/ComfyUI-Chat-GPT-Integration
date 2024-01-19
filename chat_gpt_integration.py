@@ -161,8 +161,8 @@ class ChatGptPrompt:
     EXECUTE='process'
 
     @staticmethod
-    def process(prompt,model,role,max_words,append_string,seed) -> str:
-        text = GetPrompt(role,prompt,model,max_words,append_string)
+    def process(prompt,model,role,append_string,seed) -> str:
+        text = GetPrompt(role,prompt,model,append_string)
         print(f'Returning Text: {text}')
         return (text,)
 
