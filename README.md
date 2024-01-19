@@ -3,6 +3,17 @@ https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92
 
 I rewrote the core logic because this code was not compaitible with the new version of the OpenAi api
 
+# Updates
+1/4/2024 
+-I removed max_words from the node as it didnt really seem to do anything. You can try inputting it in the prompt to see if that makes a difference. 
+
+-Sometimes, for whatever reason, chat-gpt api just doesnt work so i added logic to try 3 times waiting 10 seconds in between each try. This seems to work 100% of the time
+
+-Added a seed so that the prompt can be resubmitted to get a difference response. Make sure that the "control_after_generate" is set to random if you want this. if not you will use the same response the first time you submit a request to chat gpt
+
+I plan to start working on a node to integrate with MistalAi. Studying for an interview right now so it's a bit difficult to find time. 
+
+
 # ComfyUI-ChatGPTIntegration
 Single node to prompt ChatGPT and will return an input for your CLip TEXT Encode Prompt
 
