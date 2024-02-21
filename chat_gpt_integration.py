@@ -122,7 +122,7 @@ def GetPrompt(role, prompt, input_model,append_string) -> str:
                     },
                 ],
             )
-            resp = f"Goal: Produce an image in the style of {role}. Content: " +  completion.choices[0].message.content + f' Style: {role}'
+            resp = completion.choices[0].message.content
             save_prompt_to_file(resp)
             return resp 
         except:
