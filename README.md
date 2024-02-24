@@ -4,6 +4,12 @@ https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92
 I rewrote the core logic because this code was not compaitible with the new version of the OpenAi api
 
 # Updates
+2//24/2024
+-I have updated logic to get to the roles and the config json files to work with Linux and MacOs. 
+
+2/21/2024
+-I removed the text around the OpenAi response so now the response from chatgpt will go straight into the image generator. This makes roles useless so i will eventually remove that. 
+  
 1/4/2024 
 -I removed max_words from the node as it didnt really seem to do anything. You can try inputting it in the prompt to see if that makes a difference. 
 
