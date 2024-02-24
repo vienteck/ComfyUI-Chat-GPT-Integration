@@ -8,8 +8,8 @@ from datetime import datetime
 openAI_models = None
 NODE_FILE = os.path.abspath(__file__)
 
-CONFIG_FILE = f"{os.path.dirname(NODE_FILE)}\\config.json"
-ROLES_FILE = f"{os.path.dirname(NODE_FILE)}\\roles.json"
+CONFIG_FILE = os.path.join(os.path.dirname(NODE_FILE),'config.json')
+ROLES_FILE = os.path.join(os.path.dirname(NODE_FILE),'roles.json')
 
 def save_prompt_to_file(log):
     with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),"prompt_log.txt"), "a") as f:
@@ -122,7 +122,7 @@ def GetPrompt(role, prompt, input_model,append_string) -> str:
                     },
                 ],
             )
-            resp = completion.choices[0].message.content
+            resp = f"Goal: Produce an image in the style of {role}. Content: " +  completion.choices[0].message.content + f' Style: {role}'
             save_prompt_to_file(resp)
             return resp 
         except:
