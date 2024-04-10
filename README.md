@@ -17,7 +17,6 @@ I rewrote the core logic because this code was not compaitible with the new vers
 
 -Added a seed so that the prompt can be resubmitted to get a difference response. Make sure that the "control_after_generate" is set to random if you want this. if not you will use the same response the first time you submit a request to chat gpt
 
-I plan to start working on a node to integrate with MistalAi. Studying for an interview right now so it's a bit difficult to find time. 
 
 
 # ComfyUI-ChatGPTIntegration
